@@ -19,4 +19,4 @@ RUN apt-get update && apt-get install -y wget --no-install-recommends \
 # Install nodejs
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash \
     && apt-get update \
-    && apt-get -y install nodejs
+    && apt-get -y install nodejs git vim
