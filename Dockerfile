@@ -1,7 +1,8 @@
-FROM ubuntu
+FROM ubuntu:16.04
 
 # See https://crbug.com/795759
 ENV DEBIAN_FRONTEND=noninteractive
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 RUN apt-get update && apt-get install -y apt-utils
 RUN apt-get install -yq libgconf-2-4 wget curl
 
@@ -17,10 +18,12 @@ RUN apt-get update && apt-get install -y wget --no-install-recommends \
       --no-install-recommends
 
 # Install nodejs
+RUN apt-get update && apt-get install curl -y
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash \
     && apt-get update \
     && apt-get -y install nodejs git vim
-    
+
 RUN git clone https://github.com/Bnei-Baruch/archive-tests-js.git
 WORKDIR /archive-tests-js
-RUN sed -i "s#.*puppeteer\.launch.*#            browser = await puppeteer.launch({args: ['--no-sandbox','--headless'], executablePath: '/opt/google/chrome/google-chrome'});#g" spec/spec.js
+RUN sed -i "s#.*puppeteer\.launch.*#            browser = await puppeteer.launch({args: ['--no-sandbox', '--headless'], executablePath: '/opt/google/chrome/google-chrome'});#g" spec/spec.js
+RUN npm i
