@@ -20,3 +20,7 @@ RUN apt-get update && apt-get install -y wget --no-install-recommends \
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash \
     && apt-get update \
     && apt-get -y install nodejs git vim
+    
+RUN git clone https://github.com/Bnei-Baruch/archive-tests-js.git
+WORKDIR /archive-tests-js
+RUN sed -i 's#.*puppeteer\.launch.*#            browser = await puppeteer.launch({args: ['--no-sandbox','--headless'], executablePath: '/opt/google/chrome/google-chrome'});#g' spec/spec.js
