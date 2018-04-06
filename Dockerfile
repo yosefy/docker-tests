@@ -18,12 +18,16 @@ RUN apt-get update && apt-get install -y wget --no-install-recommends \
       --no-install-recommends
 
 # Install nodejs
-RUN apt-get update && apt-get install curl -y
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash \
     && apt-get update \
     && apt-get -y install nodejs git vim
 
+# Clone the tests repo
 RUN git clone https://github.com/Bnei-Baruch/archive-tests-js.git
 WORKDIR /archive-tests-js
+
+#Config to run headless and no sendbox
 RUN sed -i "s#.*puppeteer\.launch.*#            browser = await puppeteer.launch({args: ['--no-sandbox', '--headless'], executablePath: '/opt/google/chrome/google-chrome'});#g" spec/spec.js
+
+# Install the all the mohules
 RUN npm i
