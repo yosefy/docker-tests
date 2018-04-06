@@ -23,4 +23,4 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | bash \
     
 RUN git clone https://github.com/Bnei-Baruch/archive-tests-js.git
 WORKDIR /archive-tests-js
-RUN sed -i 's#.*puppeteer\.launch.*#            browser = await puppeteer.launch({args: ['--no-sandbox','--headless'], executablePath: '/opt/google/chrome/google-chrome'});#g' spec/spec.js
+RUN sed -i "s#.*puppeteer\.launch.*#            browser = await puppeteer.launch({args: ['--no-sandbox','--headless'], executablePath: '/opt/google/chrome/google-chrome'});#g" spec/spec.js
