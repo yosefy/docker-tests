@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-## See https://crbug.com/795759
+### See https://crbug.com/795759
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 RUN apt-get update && apt-get install -y apt-utils
