@@ -11,6 +11,11 @@ RUN apt-get install -yq libgconf-2-4 wget curl
 # installs, work.
 #
 
+RUN wget -O /usr/local/bin/confd https://github.com/kelseyhightower/confd/releases/download/v0.15.0/confd-0.15.0-linux-amd64 \
+  && chmod +x /usr/local/bin/confd \
+  && mkdir -p /etc/confd
+
+
 RUN apt-get update && apt-get install -y wget --no-install-recommends \
     && wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
     && sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list' \
@@ -28,7 +33,14 @@ RUN git clone https://github.com/Bnei-Baruch/archive-tests-js.git
 WORKDIR /archive-tests-js
 
 #Config to run headless and no sendbox
-RUN sed -i "s#.*puppeteer\.launch.*#            browser = await puppeteer.launch({args: ['--no-sandbox', '--headless'], executablePath: '/opt/google/chrome/google-chrome'});#g" spec/spec.js
+#RUN sed -i "s#.*puppeteer\.launch.*#            browser = await puppeteer.launch({args: ['--no-sandbox', '--headless'], executablePath: '/opt/google/chrome/google-chrome'});#g" spec/spec.js
 
 # Install the all the mohules
 RUN npm i
+
+COPY conf.d /etc/confd/conf.d
+COPY templates /etc/confd/templates
+
+
+COPY docker-entrypoint-pre.sh /docker-entrypoint-pre.sh
+ENTRYPOINT ["/docker-entrypoint-pre.sh"]

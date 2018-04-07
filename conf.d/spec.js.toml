@@ -1,0 +1,7 @@
+[template]
+src = "spec.js.tmpl"
+dest = "/archive-tests-js/spec/spec.js"
+keys = [
+    "/test/addr",
+    "/browser/flags",
+]
